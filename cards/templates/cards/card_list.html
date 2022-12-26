@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block cards_active %} active{% endblock %}
+
+{% block style %}
+<style>
+  .card-body li {
+    list-style-type: upper-alpha!important
+  }
+  .card-body {
+    font-family: "Comic Sans MS";
+    font-size: 12px;
+    color: black;
+  }
+
+  .card-background {
+    background-color: #c5c61d
+  }
+
+  .card-text {
+    background-color: #f5f6e1;
+    border-radius: 8px;
+  }
+
+  .card-body p {
+    margin-bottom: 0
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    {% for card in object_list %}
+      <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">{{ card }}</div>
+              <div class="card-body bg-black p-0">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-1 p-1"><img src="{% static "img/nuggets.svg" %}" alt="Logo Burger Criz" height="128"></div>
+                  <div class="card-background p-2 w-100">
+                    <div class="card-text p-1">{{ card.text_rendered|safe }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer text-muted">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="{% url 'cards:update' card.id %}" class="btn btn-dark btn-sm"><i class="far fa-edit"></i></a>
+                    <a href="{% url 'cards:update' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                  </div>
+                  <small class="text-muted">{{ card.modified_date|naturaltime }}</small>
+                </div>
+              </div>
+          </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock %}

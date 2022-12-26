@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% load static %} {% load humanize %} {% block cards_active %} active{% endblock %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 col-lg-8">
+            <div class="card mb-3">
+                <h5 class="card-header">{{ card }}</h5>
+                <div class="card-body">
+                  <form method="post">{% csrf_token %}
+                    <fieldset class="form-group">
+                      <label class="col-md-12" for="{{ form.text.id_for_label }}">{{ form.text.label_tag }}</label>
+                      {{ form.text }}
+                      <label class="col-md-12" for="{{ form.type.id_for_label }}">{{ form.type.label_tag }}</label>
+                      {{ form.type }}
+                    </fieldset>
+                    <button type="submit" class="btn my-3 btn-primary"><i class="far fa-save"></i> Enregistrer</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
