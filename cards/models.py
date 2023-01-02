@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from markdownfield.models import MarkdownField, RenderedMarkdownField
-from markdownfield.validators import VALIDATOR_CLASSY
+from markdownfield.validators import VALIDATOR_NULL
 
 
 class Tag(models.Model):
@@ -16,7 +16,7 @@ class Tag(models.Model):
 
 
 class Card(models.Model):
-    text = MarkdownField('Texte de la carte', rendered_field='text_rendered', validator=VALIDATOR_CLASSY)
+    text = MarkdownField('Texte de la carte', rendered_field='text_rendered', validator=VALIDATOR_NULL, default="Tapez le texte de votre carte (en utilisant **Markdown**)")
     text_rendered = RenderedMarkdownField('Texte de la carte en HTML')
     TYPE_CHOICES = (
         (0, "Toss"),
@@ -34,13 +34,13 @@ class Card(models.Model):
     public = models.BooleanField('Carte publique ?', default=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     modified_date = models.DateTimeField('Date de modification', auto_now=True)
     created_date = models.DateTimeField('Date de création', auto_now_add=True)
 
     def __str__(self):
-        return "Carte " + str(self.TYPE_CHOICES[self.type][1]).lower() + ' ' + str(self.id)
+        return "Carte " + str(self.TYPE_CHOICES[self.type][1]).lower() + ' n°' + str(self.id)
 
     class Meta:
         verbose_name = "Carte"
@@ -49,7 +49,7 @@ class Card(models.Model):
 
 class Deck(models.Model):
     name = models.CharField('Paquet de cartes', max_length=128)
-    cards = models.ManyToManyField(Card)
+    cards = models.ManyToManyField(Card, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     public = models.BooleanField('Paquet public ?', default=True)

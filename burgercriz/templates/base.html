@@ -37,18 +37,38 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-black">
-            <a class="navbar-brand mx-4" href="#"><img src="{% static "img/burger_criz_logo.svg" %}" alt="Logo Burger Criz" height="24"></a>
+            <a class="navbar-brand mx-4" href="{% url 'home' %}"><img src="{% static "img/burger_criz_logo.svg" %}" alt="Logo Burger Criz" height="24"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link{% block home_active %}{% endblock %}" href="/">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{% block cards_active %}{% endblock %}" href="{% url 'cards:list' %}">Cartes</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">Jouer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block user_active %}{% endblock %}" href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}">
+                            {% if user.is_authenticated %}
+                            <i class="fas fa-user-cog"></i>
+                            {% else %}
+                            <i class="fas fa-sign-in-alt"></i>
+                            {% endif %}
+                        </a>
+                    </li>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin <i class="fas fa-lock"></i></a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -57,10 +77,13 @@
         {% block content %}{% endblock %}
 
         <!-- FOOTER -->
-        <footer class="container">
-            <p>&copy; 2022 <a href="https://www.imt.fr/">IMT</a></p>
+        <footer class="container my-5">
+            <p>&copy; 2022 <a href="https://www.imt.fr/" style="color:#00B8DE">IMT</a></p>
         </footer>
     </main>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}" type="text/javascript"></script>
     {% block scripts %}
 	{% endblock %}
 </body>

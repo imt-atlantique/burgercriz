@@ -132,3 +132,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_URL = 'http://burgercriz.fr/'
+
+LOGIN_REDIRECT_URL = LOGOUT_REDIRECT_URL = '/cards/'

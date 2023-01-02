@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block home_active %} active{% endblock %}
+
+
+
+{% block content %}
+<div class="container" style="width:380px">
+    <div class="card text-white bg-dark my-5">
+        <div class="card-body">
+            <div class="mb-4 text-center">
+                <img class="mb-2" src="{% static "img/burger.png" %}" alt="" width="48">
+                <h4>Modifier votre compte</h4>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="next" value="/cards">
+                <button type="submit" class="btn my-3 btn-primary"><i class="far fa-save"></i> Enregistrer</button><br>
+                <a href="{% url 'logout' %}" class="btn my-3 btn-danger"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>&nbsp;
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('id_first_name').classList.add('form-control');
+    document.getElementById('id_last_name').classList.add('form-control');
+    document.getElementById('id_email').classList.add('form-control')
+</script>
+{% endblock %}

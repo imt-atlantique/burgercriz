@@ -9,53 +9,142 @@
   .card-body li {
     list-style-type: upper-alpha!important
   }
+
   .card-body {
     font-family: "Comic Sans MS";
     font-size: 12px;
     color: black;
   }
 
-  .card-background {
+  .card-text {
+    border-radius: 8px
+  }
+  
+  .card-body p {
+    margin-bottom: 0
+  }
+
+  .nuggets.card-background {
     background-color: #c5c61d
   }
 
-  .card-text {
-    background-color: #f5f6e1;
-    border-radius: 8px;
+  .menu-bleu.card-background {
+    background-color: #36c4f1
   }
 
-  .card-body p {
-    margin-bottom: 0
+  .menu-rouge.card-background {
+    background-color: #f52513
+  }
+
+  .addition.card-background {
+    background-color: #f99b7f
+  }
+
+  .seloupoivre.card-background {
+    background-color: #88898b
+  }
+
+  .nuggets.card-text {
+    background-color: #f5f6e1;
+  }
+
+  .menu-bleu.card-text {
+    background-color: #f5f6e1
+  }
+
+  .seloupoivre.card-text {
+    background-color: #f3f4f4
+  }
+
+  .menu-rouge.card-text {
+    background-color: #f5f7fc
+  }
+
+  .addition.card-text {
+    background-color: #f5e9e9
   }
 </style>
 {% endblock %}
 
 {% block content %}
+<ul class="nav nav-pills m-4">
+  <li class="nav-item">
+    <a class="nav-link disabled" href="">Filtres : </a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle{% if request.GET.tag %} active{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% if request.GET.tag %}{{ request.GET.tag }}{% else %}Tags{% endif %}</a>
+    <div class="dropdown-menu" style="">
+      {% for tag in tags %}
+      <a class="dropdown-item" href="{% url 'cards:list' %}?tag={{ tag }}">{{ tag.tag|slice:":1"|upper }}{{ tag.tag|slice:"1:" }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle{% if request.GET.deck %} active{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% if request.GET.deck %}{{ request.GET.deck }}{% else %}Paquets de cartes publics{% endif %}</a>
+    <div class="dropdown-menu" style="">
+      {% for deck in decks %}
+      <a class="dropdown-item" href="{% url 'cards:list' %}?deck={{ deck }}">{{ deck.name|slice:":1"|upper }}{{ deck.name|slice:"1:" }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  {% if request.GET.tag or request.GET.deck %}
+  <li class="nav-item">
+    <a class="btn btn-outline-primary mx-2" href="{% url 'cards:list' %}"><i class="far fa-times-circle"></i> Effacer les filtres</a>
+  </li>
+  {% endif %}
+
+{% if user.is_authenticated %}<a href="{% url 'cards:create' %}" class="btn btn-primary ms-auto mx-5"><i class="far fa-plus-square"> </i> Créer une carte</a>{% endif %}
+</ul>
 <div class="container">
   <div class="row">
     {% for card in object_list %}
       <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <div class="card-header">{{ card }}</div>
-              <div class="card-body bg-black p-0">
+            <div class="card-header">{{ card }}&nbsp;{% for tag in card.tags.all %}
+              <span class="badge bg-dark">#{{ tag }}</span>
+              {% endfor %}</div>
+              <div class="card-body bg-black p-0" style="max-height: 156px;">
                 <div class="d-flex align-items-center">
-                  <div class="flex-shrink-1 p-1"><img src="{% static "img/nuggets.svg" %}" alt="Logo Burger Criz" height="128"></div>
-                  <div class="card-background p-2 w-100">
-                    <div class="card-text p-1">{{ card.text_rendered|safe }}</div>
+                  <div class="flex-shrink-1 p-1"><img src="{% if card.type == 0 %}toss{% elif card.type == 1 %}{% static "img/nuggets.svg" %}{% elif card.type == 2 %}{% static "img/seloupoivre.svg" %}{% elif card.type == 3 or card.type == 4 %}{% static "img/menus.svg" %}{% elif card.type == 5 %}{% static "img/addition.svg" %}{% elif card.type == 6 %}{% static "img/bugerdelamort.svg" %}{% endif %}" alt="Logo Burger Criz" height="128"></div>
+                  <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}bugerdelamort{% endif %} card-background p-2 w-100">
+                    <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}bugerdelamort{% endif %} card-text p-1" style="height: 140px;">{{ card.text_rendered|safe }}</div>
                   </div>
                 </div>
               </div>
               <div class="card-footer text-muted">
                 <div class="d-flex justify-content-between align-items-center">
+                  {% if user.is_authenticated %}
                   <div class="btn-group">
-                    <a href="{% url 'cards:update' card.id %}" class="btn btn-dark btn-sm"><i class="far fa-edit"></i></a>
-                    <a href="{% url 'cards:update' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                      <a href="{% url 'cards:update' card.id %}" class="btn btn-dark btn-sm"><i class="far fa-edit"></i></a>
+                      <div class="btn-group" role="group">
+                        <button id="btnGroupDrop{{ card.id }}" type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          {% for deck in decks %}
+                          <a class="dropdown-item" href="{% url 'cards:add_to_deck' card.id deck.id %}" onclick="document.getElementById('btnGroupDrop{{ card.id }}').classList.remove('btn-dark'); document.getElementById('btnGroupDrop{{ card.id }}').classList.add('btn-success');">{% if card in deck.cards.all %}<i class="far fa-check-circle"></i> {% else %}<i class="far fa-circle"></i> {% endif %}{{ deck }}</a>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <a href="{% url 'cards:delete' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
                   </div>
+                  {% endif %}
                   <small class="text-muted">{{ card.modified_date|naturaltime }}</small>
                 </div>
               </div>
           </div>
       </div>
     {% endfor %}
+    <div class="btn-toolbar my-2" role="toolbar" aria-label="Pages">
+      <div class="btn-group me-2" role="group">
+        {% if page_obj.has_previous %}
+          <a class="btn btn-secondary" href="?page=1"><i class="fas fa-fast-backward"></i></a>
+          <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-step-backward"></i></a>
+        {% endif %}
+        <a class="btn btn-secondary">{{ page_obj.number }}</a>
+        {% if page_obj.has_next %}
+            <a class="btn btn-secondary" href="?page={{ page_obj.next_page_number }}"><i class="fas fa-step-forward"></i></a>
+            <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}"><i class="fas fa-fast-forward"></i></a>
+        {% endif %}
+      </div>
+    </div>
 </div>
 {% endblock %}
