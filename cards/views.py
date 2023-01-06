@@ -1,6 +1,6 @@
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
 
 from .models import Card, Tag, Deck
@@ -49,9 +49,21 @@ class CardUpdateView(UpdateView):
         context['decks'] = Deck.objects.filter(user=self.request.user)
         return context
 
+    def dispatch(self, request, *args, **kwargs):
+        card = get_object_or_404(Card, pk=self.kwargs['pk'])
+        if request.user != card.user:
+            return HttpResponseForbidden("Dis donc, c'est interdit ça d'éditer la carte des petits copains !")
+        return super().dispatch(request, *args, **kwargs)
+
 class CardDeleteView(DeleteView):
     model = Card
     success_url = '/cards/'
+
+    def dispatch(self, request, *args, **kwargs):
+        card = get_object_or_404(Card, pk=self.kwargs['pk'])
+        if request.user != card.user:
+            return HttpResponseForbidden("Dis donc, c'est interdit ça de supprimer la carte des petits copains !")
+        return super().dispatch(request, *args, **kwargs)
 
 def add_to_deck(request, card_id, deck_id):
     card = get_object_or_404(Card, pk=card_id)

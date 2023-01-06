@@ -10,6 +10,14 @@
     padding-left: 1rem;
   }
 
+  .card-body ul {
+    padding-left: 8px;
+  }
+
+  .card-body ul>li {
+    list-style-type: '- ';
+  }
+
   .card-body ol>li {
     list-style-type: upper-alpha!important
   }
@@ -119,7 +127,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   {% if user.is_authenticated %}
                   <div class="btn-group">
-                      <a href="{% url 'cards:update' card.id %}" class="btn btn-dark btn-sm"><i class="far fa-edit"></i></a>
+                    {% if user == card.user %}<a href="{% url 'cards:update' card.id %}" class="btn btn-dark btn-sm"><i class="far fa-edit"></i></a>{% endif %}
                       <div class="btn-group" role="group">
                         <button id="btnGroupDrop{{ card.id }}" type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i></button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -128,7 +136,7 @@
                           {% endfor %}
                         </div>
                       </div>
-                      <a href="{% url 'cards:delete' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                      {% if user == card.user %}<a href="{% url 'cards:delete' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>{% endif %}
                   </div>
                   {% endif %}
                   <small class="text-muted">{{ card.modified_date|naturaltime }}</small>
