@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 
-from .views import HomeView, UserUpdateView
+from .views import HomeView, UserUpdateView, help
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/profile/', login_required(UserUpdateView.as_view()), name='profile'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', HomeView.as_view(), name='home'),
+    path('help/', help, name='help'),
     path('cards/', include('cards.urls')),
 ]

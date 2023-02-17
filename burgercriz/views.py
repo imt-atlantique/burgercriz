@@ -1,5 +1,5 @@
 from django.views import generic
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 
 from cards.models import Card
@@ -18,3 +18,6 @@ class UserUpdateView(generic.UpdateView):
 
     def get_object(self):
         return get_object_or_404(User, pk=self.request.user.pk)
+
+def help(request):
+    return render(request, 'help.html')

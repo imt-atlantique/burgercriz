@@ -94,7 +94,7 @@
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle{% if request.GET.deck %} active{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% if request.GET.deck %}{{ request.GET.deck }}{% else %}Paquets de cartes publics{% endif %}</a>
     <div class="dropdown-menu" style="">
-      {% for deck in decks %}
+      {% for deck in public_decks %}
       <a class="dropdown-item" href="{% url 'cards:list' %}?deck={{ deck }}">{{ deck.name|slice:":1"|upper }}{{ deck.name|slice:"1:" }}</a>
       {% endfor %}
     </div>
@@ -134,6 +134,7 @@
                           {% for deck in decks %}
                           <a class="dropdown-item" href="{% url 'cards:add_to_deck' card.id deck.id %}" onclick="document.getElementById('btnGroupDrop{{ card.id }}').classList.remove('btn-dark'); document.getElementById('btnGroupDrop{{ card.id }}').classList.add('btn-success');">{% if card in deck.cards.all %}<i class="far fa-check-circle"></i> {% else %}<i class="far fa-circle"></i> {% endif %}{{ deck }}</a>
                           {% endfor %}
+                          <a class="dropdown-item" href="{% url 'cards:new_deck' card.id %}"><i class="far fa-plus-square"></i> Nouveau paquet de carte</a>
                         </div>
                       </div>
                       {% if user == card.user %}<a href="{% url 'cards:delete' card.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>{% endif %}

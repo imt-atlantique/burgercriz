@@ -23,6 +23,7 @@ class CardListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
+        context['public_decks'] = Deck.objects.filter(public=True)
         if self.request.user.is_authenticated:
             context['decks'] = Deck.objects.filter(public=True, user = self.request.user)
         return context
@@ -64,6 +65,17 @@ class CardDeleteView(DeleteView):
         if request.user != card.user:
             return HttpResponseForbidden("Dis donc, c'est interdit ça de supprimer la carte des petits copains !")
         return super().dispatch(request, *args, **kwargs)
+
+class DeckCreateView(CreateView):
+    model = Deck
+    fields = ['name', 'public']
+
+    success_url = '/cards/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        
+        return super().form_valid(form)
 
 def add_to_deck(request, card_id, deck_id):
     card = get_object_or_404(Card, pk=card_id)

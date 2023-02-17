@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block cards_active %} active{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 col-lg-8">
+            <div class="card mb-3">
+                <h5 class="card-header">Nouveau paquet de cartes</h5>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <a href="{% url 'cards:list' %}" class="btn my-3 btn-light"><i class="fas fa-chevron-left"></i> Annuler</a>&nbsp;
+                        <button type="submit" class="btn my-3 btn-primary"><i class="far fa-save"></i> Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('id_name').classList.add('form-control');
+    document.getElementById('id_public').classList.add('form-check-input')
+</script>
+{% endblock %}

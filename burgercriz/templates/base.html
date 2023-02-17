@@ -50,10 +50,10 @@
                         <a class="nav-link{% block cards_active %}{% endblock %}" href="{% url 'cards:list' %}">Cartes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">Jouer</a>
+                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">Animer une session</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">À propos</a>
+                        <a class="nav-link{% block help_active %}{% endblock %}" href="{% url 'help' %}">Aide</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% block user_active %}{% endblock %}" href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}">
@@ -78,7 +78,7 @@
 
         <!-- FOOTER -->
         <footer class="container my-5">
-            <p>&copy; 2022 <a href="https://www.imt.fr/" style="color:#00B8DE">IMT</a></p>
+            <p>&copy; 2022 <a href="https://www.imt.fr/" style="color:#00B8DE"><img src="{% static "img/imt.svg" %}" alt="Logo Institut Mines Télécom" height=16 style="margin-top:-2px"></a></p>
         </footer>
     </main>
 

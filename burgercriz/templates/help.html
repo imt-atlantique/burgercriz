@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block help_active %} active{% endblock %}
+
+{% block content %}
+<div class="col-lg-8 mx-auto p-4 py-md-5">
+    <p class="fs-5">Si vous chercher comment réaliser une action en utilisant ce site. Vous êtes au bon endroit !</p>
+    <main>
+        <h3>Comment créer une carte ?</h3>
+        <ul>
+            <li>Pour créer une carte, vous devez disposer d'un compte et être authentifié. Pour cela, cliquer sur l'icône <i class="fas fa-sign-in-alt"></i> en haut à droite.</li>
+            <li>Rendez-vous sur la page <a href="{% url 'cards:list' %}">Cartes</a>.</li>
+            <li>Cliquez sur le bouton <a href="#" class="btn btn-primary ms-auto"><i class="far fa-plus-square"> </i> Créer une carte</a>.</li>
+            <li>Remplissez le formulaire qui s'affiche en utilisant le langage Markdown.</li>
+        </ul>
+
+        <hr class="mb-5">
+
+        <h3>Comment créer un paquet de cartes ?</h3>
+        <ul>
+            <li>Pour créer un paquet de cartes (en vue de l'imprimer ou de l'utiliser depuis votre téléphone), vous devez disposer d'un compte et être authentifié. Pour cela, cliquer sur l'icône <i class="fas fa-sign-in-alt"></i> en haut à droite.</li>
+            <li>Créer un paquet de carte en cliquant sur le bouton <button type="button" class="btn btn-dark btn-sm"><i class="fas fa-layer-group"></i></button> d'une carte et sélectionner « <i class="far fa-plus-square"></i> Nouveau paquet de carte ».</li>
+            <li>Remplissez le formulaire.</li>
+        </ul>
+
+        <hr class="mb-5">
+    </main>
+</div>
+{% endblock %}
