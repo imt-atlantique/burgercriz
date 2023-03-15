@@ -56,6 +56,10 @@
     background-color: #88898b
   }
 
+  .burgerdelamort.card-background {
+    background-color: #84be23
+  }
+
   .nuggets.card-text {
     background-color: #f5f6e1;
   }
@@ -74,6 +78,10 @@
 
   .addition.card-text {
     background-color: #f5e9e9
+  }
+
+  .burgerdelamort.card-text {
+    background-color: #e9efdd
   }
 </style>
 {% endblock %}
@@ -117,9 +125,9 @@
               {% endfor %}</div>
               <div class="card-body bg-black p-0" style="max-height: 156px;">
                 <div class="d-flex align-items-center">
-                  <div class="flex-shrink-1 p-1"><img src="{% if card.type == 0 %}toss{% elif card.type == 1 %}{% static "img/nuggets.svg" %}{% elif card.type == 2 %}{% static "img/seloupoivre.svg" %}{% elif card.type == 3 or card.type == 4 %}{% static "img/menus.svg" %}{% elif card.type == 5 %}{% static "img/addition.svg" %}{% elif card.type == 6 %}{% static "img/bugerdelamort.svg" %}{% endif %}" alt="Logo Burger Criz" height="128"></div>
-                  <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}bugerdelamort{% endif %} card-background p-2 w-100">
-                    <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}bugerdelamort{% endif %} card-text p-1" style="height: 140px;">{{ card.text_rendered|safe }}</div>
+                  <div class="flex-shrink-1 p-1"><img src="{% if card.type == 0 %}toss{% elif card.type == 1 %}{% static "img/nuggets.svg" %}{% elif card.type == 2 %}{% static "img/seloupoivre.svg" %}{% elif card.type == 3 or card.type == 4 %}{% static "img/menus.svg" %}{% elif card.type == 5 %}{% static "img/addition.svg" %}{% elif card.type == 6 %}{% static "img/burgerdelamort.svg" %}{% endif %}" alt="Logo Burger Criz" height="128"></div>
+                  <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}burgerdelamort{% endif %} card-background p-2 w-100">
+                    <div class="{% if card.type == 0 %}toss{% elif card.type == 1 %}nuggets{% elif card.type == 2 %}seloupoivre{% elif card.type == 3 %}menu-bleu{% elif card.type == 4 %}menu-rouge{% elif card.type == 5 %}addition{% elif card.type == 6 %}burgerdelamort{% endif %} card-text p-1" style="height: 140px;">{{ card.text_rendered|safe }}</div>
                   </div>
                 </div>
               </div>
