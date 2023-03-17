@@ -24,6 +24,7 @@ class CardListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
         context['public_decks'] = Deck.objects.filter(public=True)
+        context['card_types'] = Card.TYPE_CHOICES
         if self.request.user.is_authenticated:
             context['decks'] = Deck.objects.filter(public=True, user = self.request.user)
         return context
@@ -31,12 +32,15 @@ class CardListView(ListView):
     def get_queryset(self):
         tag = self.request.GET.get('tag')
         deck = self.request.GET.get('deck')
+        type = self.request.GET.get('type')
         if tag:
             self.tag = get_object_or_404(Tag, tag__startswith=tag)
             return Card.objects.filter(tags=self.tag).order_by('-modified_date')
         if deck:
             self.deck = get_object_or_404(Deck, name__startswith=deck)
             return self.deck.cards.filter(public=True).order_by('-modified_date')
+        if type:
+            return Card.objects.filter(type=type).order_by('-modified_date')
         else:
             return Card.objects.filter(public=True).order_by('-modified_date')
 

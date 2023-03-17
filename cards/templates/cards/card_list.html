@@ -107,7 +107,15 @@
       {% endfor %}
     </div>
   </li>
-  {% if request.GET.tag or request.GET.deck %}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle{% if request.GET.type %} active{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Type</a>
+    <div class="dropdown-menu" style="">
+      {% for type in card_types %}
+      <a class="dropdown-item" href="{% url 'cards:list' %}?type={{ type.0 }}">{{ type.1 }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  {% if request.GET.tag or request.GET.deck or request.GET.type %}
   <li class="nav-item">
     <a class="btn btn-outline-primary mx-2" href="{% url 'cards:list' %}"><i class="far fa-times-circle"></i> Effacer les filtres</a>
   </li>
