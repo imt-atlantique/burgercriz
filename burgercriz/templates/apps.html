@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+<style>
+        
+</style>
+{% endblock %}
+
+{% block apps_active %} active{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 my-3 text-center justify-content-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Application Windows</h4>
+        </div>
+        <div class="card-body">
+          <img class="img-fluid" src="{% static "img/burger_windows.png" %}" alt="App Windows">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Somptueuse interface</li>
+            <li>Transitions vidéos</li>
+            <li>Support cheesebuzzers USB</li>
+            <li>Tableau de bord enseignant</li>
+          </ul>
+          <a class="w-100 btn btn-lg btn-primary" href="{% static "BurgerCriz.zip" %}" type="button"><i class="fas fa-download"></i> Télécharger l'application</a>  
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Application web</h4>
+        </div>
+        <div class="card-body">
+          <img class="img-fluid" src="{% static "img/burger_web.png" %}" alt="App Windows">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Interface simple</li>
+            <li>Sans installation</li>
+            <li>Support cheesebuzzers USB</li>
+            <li>&nbsp;</li>
+          </ul>
+          <a class="w-100 btn btn-lg btn-primary" href="#" type="button"><i class="fas fa-external-link-alt"></i> Ouvrir l'application web</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

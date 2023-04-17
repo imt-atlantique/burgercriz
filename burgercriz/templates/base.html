@@ -52,7 +52,7 @@
                         <a class="nav-link{% block cards_active %}{% endblock %}" href="{% url 'cards:list' %}">Cartes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://baptistegaultier.fr/BurgerQuiz/">Animer une session</a>
+                        <a class="nav-link {% block apps_active %}{% endblock %}" href="{% url 'apps' %}">Animer une session</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{% block help_active %}{% endblock %}" href="{% url 'help' %}">Aide</a>

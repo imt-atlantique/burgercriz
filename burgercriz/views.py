@@ -19,5 +19,9 @@ class UserUpdateView(generic.UpdateView):
     def get_object(self):
         return get_object_or_404(User, pk=self.request.user.pk)
 
-def help(request):
+def help_view(request):
     return render(request, 'help.html')
+
+def apps_view(request):
+    return render(request, 'apps.html')
+    
